@@ -1,62 +1,71 @@
 package DataAccess.DTO;
 
 public class SexoDTO {
-    private Integer IdSexo;
+    private Integer IdCatalogo;
+    private Integer IdCatalogoTipo;
     private String Nombre;
+    private String Descripcion;
     private String Estado;
-    private String FechaCrea;
+    private String FechaCreacion; 
     private String FechaModifica;
-    
+
     public SexoDTO(){}
 
-    public SexoDTO(String nombre){
-        this.Nombre = nombre;
+    public SexoDTO(Integer idCatalogo, Integer idCatalogoTipo, String nombre, String descripcion, String estado,
+            String fechaCreacion, String fechaModifica) {
+        this.IdCatalogo         = idCatalogo;
+        this.IdCatalogoTipo     = idCatalogoTipo;
+        this.Nombre             = nombre;
+        this.Descripcion        = descripcion;
+        this.Estado             = estado;
+        this.FechaCreacion      = fechaCreacion;
+        this.FechaModifica      = fechaModifica;
     }
 
-    public SexoDTO(int idSexo, String nombre, String estado, String fechacrea, String fechaModifica){
-        this.IdSexo = idSexo;
-        this.Nombre = nombre;
-        this.Estado = estado;
-        this.FechaCrea = fechacrea;
-        this.FechaModifica = fechaModifica;
-
+    public Integer getIdCatalogo() {
+        return IdCatalogo;
     }
-    public Integer getIdSexo() {
-        return IdSexo;
+    public void setIdCatalogo(Integer idCatalogo) {
+        IdCatalogo = idCatalogo;
     }
-
-    public void setIdSexo(Integer idSexo) {
-        IdSexo = idSexo;
+    public Integer getIdCatalogoTipo() {
+        return IdCatalogoTipo;
     }
-
+    public void setIdCatalogoTipo(Integer idCatalogoTipo) {
+        IdCatalogoTipo = idCatalogoTipo;
+    }
     public String getNombre() {
         return Nombre;
     }
-
     public void setNombre(String nombre) {
         Nombre = nombre;
     }
-
+    public String getDescripcion() {
+        return Descripcion;
+    }
+    public void setDescripcion(String descripcion) {
+        Descripcion = descripcion;
+    } 
     public String getEstado() {
         return Estado;
     }
-
+    
     public void setEstado(String estado) {
         Estado = estado;
     }
-
-    public String getFechaCrea() {
-        return FechaCrea;
+    
+    public String getFechaCreacion() {
+        return FechaCreacion;
     }
-
-    public void setFechaCrea(String fechaCrea) {
-        FechaCrea = fechaCrea;
+    
+    public void setFechaCreacion(String fechaCreacion) {
+        FechaCreacion = fechaCreacion;
     }
-
+    
     public String getFechaModifica() {
         return FechaModifica;
     }
-
+    
     public void setFechaModifica(String fechaModifica) {
         FechaModifica = fechaModifica;
     }
@@ -64,15 +73,14 @@ public class SexoDTO {
     @Override
     public String toString(){
         return getClass().getName()
-        + "\n IdSexo:           "+getIdSexo()
+        + "\n IdCatalogo:       "+getIdCatalogo()
+        + "\n IdCatalogoTipo:   "+getIdCatalogoTipo()
         + "\n Nombre:           "+getNombre()
+        + "\n Descripcion:      "+getDescripcion()
         + "\n Estado:           "+getEstado()
-        + "\n FechaCrea:        "+getFechaCrea()
+        + "\n FechaCreacion:    "+getFechaCreacion()
         + "\n FechaModifica:    "+getFechaModifica();
     }
 
-    public boolean toSring() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    
 }

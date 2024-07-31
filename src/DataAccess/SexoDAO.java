@@ -1,6 +1,5 @@
 package DataAccess;
 
-import DataAccess.DTO.SexoDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,57 +10,89 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import DataAccess.DTO.SexoAltDTO;
+import DataAccess.DTO.SexoDTO;
+
 public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
-    
+
     @Override
     public SexoDTO readBy(Integer id) throws Exception {
-        SexoDTO oS = new SexoDTO();
-        String query = "SELECT IdSexi"
-                     +" .Nombre"
-                     +" .EStado"
-                     +" .FechaCrea"
-                     +" .FechaModifica"
-                     +" From Sexo"
-                     +" WHERE ESTADO = 'A' AND IdSexo= "+ id.toString();
+        SexoDTO s = new SexoDTO();
+        String query = "SELECT IdCatalogo"
+                        +" .IdCatalogoTipo"
+                        +" .Nombre"
+                        +" .Descripcion"
+                        +" .Estado"
+                        +" .FechaCreacion"
+                        +" .FechaModifica"
+                        +" From Catalogo"
+                        +" WHERE ESTADO = 'A'"
+                        +" AND IdCatalogoTipo = 2"
+                        +" AND IdCatalogo " + id.toString();
         try {
             Connection conn = openConnection();     //conectar a BD
             Statement  stmt = conn.createStatement();   //CRUD: Select *
             ResultSet rs = stmt.executeQuery(query);  //ejecutar la
             while (rs.next()) { 
-                oS = new SexoDTO( rs.getInt(1)     //IdSexxo
-                                    ,rs.getString(2)  //Nombre
-                                    ,rs.getString(3)  //Estado
-                                    ,rs.getString(4)  //FehcaCrea
-                                    ,rs.getString(5)); //FechaModifica
+                s = new SexoDTO( rs.getInt(1)
+                                ,rs.getInt(2)    //IdCatalogoTipo
+                                ,rs.getString(3)  //Nombre
+                                ,rs.getString(4)  //Descripcion
+                                ,rs.getString(5)  //Estado
+                                ,rs.getString(6)  //FehcaCrea
+                                ,rs.getString(7)); //FechaModifica//FechaModifica
             }
             
         } catch (SQLException e) {
             throw e;
             // throw new PatException(e.getMessage(), getClass().getName(), "readBy()");
         }
-        return oS;
+        return s;
     }
-    
+
+    @Override
+    public boolean create(SexoDTO entity) throws Exception {
+        String query = "INSERT INTO Catalogo (IdCatalogoTip0,Nombre,Descripcion) VALUES(?.?,?)";
+        try {
+            Connection conn = openConnection();     //conectar a BD
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1,2);
+            pstmt.setString(1, entity.getNombre());
+            pstmt.setString(2,entity.getDescripcion());
+            pstmt.executeUpdate();
+            return true;
+        }
+        catch (SQLException e){
+            throw e;
+            // throw new PatException(e.getMessage(), getClass().getName(), "create");
+        }
+    }
+
     @Override
     public List<SexoDTO> readAll() throws Exception {
         List <SexoDTO> lts = new ArrayList<>();
-        String query = "SELECT IdSexo"
-                     +" .Nombre"
-                     +" .Etado"
-                     +" .FechaCrea"
-                     +" .FechaModifica"
-                     +" From Sexo"
-                     +" WHERE ESTADO = 'A'";
+        String query = "SELECT IdCatalogo"
+                        +" .IdCatalogoTipo"
+                        +" .Nombre"
+                        +" .Descripcion"
+                        +" .Estado"
+                        +" .FechaCreacion"
+                        +" .FechaModifica"
+                        +" From Catalogo"
+                        +" WHERE ESTADO = 'A'"
+                        +" AND IdCatalogoTipo = 2";
         try {
             Connection conn = openConnection();     //conectar a BD
             Statement  stmt = conn.createStatement();   //CRUD: Select *
             ResultSet rs = stmt.executeQuery(query);  //ejecutar la
             while (rs.next()) { 
-                SexoDTO s = new SexoDTO( rs.getInt(1)     //IdSexxo
-                                        ,rs.getString(2)  //Nombre
-                                        ,rs.getString(3)  //Estado
-                                        ,rs.getString(4)  //FehcaCrea
-                                        ,rs.getString(5)); //FechaModifica
+                SexoDTO s = new SexoDTO( rs.getInt(1)
+                                        ,rs.getInt(2)    //IdCatalogoTipo
+                                        ,rs.getString(3)  //Nombre
+                                        ,rs.getString(4)  //Descripcion
+                                        ,rs.getString(5)  //Estado
+                                        ,rs.getString(6)  //FehcaCrea
+                                        ,rs.getString(7)); //FechaModifica
                 lts.add(s);
             }
 
@@ -71,35 +102,19 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
         }
         return lts;
     }
-    
-    @Override
-    public boolean create(SexoDTO entity) throws Exception {
-        String query = "INSERT INTO Sexo (Nombre) VALUES(?)";
-        try {
-            Connection conn = openConnection();     //conectar a BD
-            PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setString(1, entity.getNombre());
-            pstmt.setString(2,entity.getNombre());
-            pstmt.executeUpdate();
-            return true;
-        }
-        catch (SQLException e){
-            throw e;
-            // throw new PatException(e.getMessage(), getClass().getName(), "create");
-        }
-    }
-    
+
     @Override
     public boolean update(SexoDTO entity) throws Exception {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
-        String query = "UPDATE Sexo SET Nombre = ?, FechaModifica = ? WHERE IdSexo = ?";
+        String query = "UPDATE Catalogo SET Nombre = ?,Descripcion=?, FechaModifica = ? WHERE IdSexo = ?";
         try {
             Connection conn = openConnection();     //conectar a BD
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, entity.getNombre());
-            pstmt.setString(2, dtf.format(now).toString());
-            pstmt.setInt(3, entity.getIdSexo());
+            pstmt.setString(2, entity.getDescripcion());
+            pstmt.setString(3, dtf.format(now).toString());
+            pstmt.setInt(4, entity.getIdCatalogo());
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -109,8 +124,8 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
     }
 
     @Override
-    public boolean delete(Integer id) throws Exception {
-        String query = "UPDATE FROM Sexo WHERE IdSexo = ?";
+    public boolean delete(int id) throws Exception {
+        String query = "UPDATE Catalogo SET Estado=? WHERE IdCatalogo=?";
         try {
             Connection conn = openConnection();     //conectar a BD
             PreparedStatement pstmt = conn.prepareStatement(query);
@@ -125,26 +140,22 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
         }
     }
 
-    // public Integer getMaxRow() throws Exception{
-    //     String query = "SELECT COUNT(*) TotalReg FROM SEXO"
-    //                   +" WHERE Estado = 'A' ";
-    //     try {
-    //         Connection conn = openConnection();     //conectar a BD
-    //         Statement stmt = conn.createStatement();
-    //         ResultSet rs = stmt.executeQuery();
-    //         while (rs.next()) {
-    //             return rs.getInt(1);
+    public Integer getRowCount() throws Exception{
+        String query = "SELECT COUNT(*) TotalReg FROM Catalogo"
+                      +" WHERE Estado = 'A' "
+                      +" AND IdCatalogoTipo = 2";
+        try {
+            Connection conn = openConnection();     //conectar a BD
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                return rs.getInt(1);
                 
-    //         }
-    //     }catch (SQLException e){
-    //         throw e;
-    //         // throw new PatException(e.getMessage(), getClass().getName(), "getMaxRow()");
-    //     }
-    //     return 0;
-    // }
-
-
-
-
-
+            }
+        }catch (SQLException e){
+            throw e;
+            // throw new PatException(e.getMessage(), getClass().getName(), "getMaxRow()");
+        }
+        return 0;
+    }
 }
