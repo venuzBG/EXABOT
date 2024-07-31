@@ -2,6 +2,7 @@
 import DataAccess.DTO.SexoDTO;
 import DataAccess.SexoDAO;
 
+
 public class App {
     public static void main(String[] args) throws Exception {
         try {

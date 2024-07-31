@@ -1,15 +1,14 @@
 package DataAccess;
 
 import DataAccess.DTO.SexoDTO;
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
@@ -19,7 +18,7 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
         SexoDTO oS = new SexoDTO();
         String query = "SELECT IdSexi"
                      +" .Nombre"
-                     +" .Etado"
+                     +" .EStado"
                      +" .FechaCrea"
                      +" .FechaModifica"
                      +" From Sexo"
@@ -126,23 +125,23 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
         }
     }
 
-    public Integer getMaxRow() throws Exception{
-        String query = "SELECT COUNT(*) TotalReg FROM SEXO"
-                      +" WHERE Estado = 'A' ";
-        try {
-            Connection conn = openConnection();     //conectar a BD
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                return rs.getInt(1);
+    // public Integer getMaxRow() throws Exception{
+    //     String query = "SELECT COUNT(*) TotalReg FROM SEXO"
+    //                   +" WHERE Estado = 'A' ";
+    //     try {
+    //         Connection conn = openConnection();     //conectar a BD
+    //         Statement stmt = conn.createStatement();
+    //         ResultSet rs = stmt.executeQuery();
+    //         while (rs.next()) {
+    //             return rs.getInt(1);
                 
-            }
-        }catch (SQLException e){
-            throw e;
-            // throw new PatException(e.getMessage(), getClass().getName(), "getMaxRow()");
-        }
-        return 0;
-    }
+    //         }
+    //     }catch (SQLException e){
+    //         throw e;
+    //         // throw new PatException(e.getMessage(), getClass().getName(), "getMaxRow()");
+    //     }
+    //     return 0;
+    // }
 
 
 
