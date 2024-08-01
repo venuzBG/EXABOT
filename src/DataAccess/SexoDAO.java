@@ -1,5 +1,6 @@
 package DataAccess;
 
+import DataAccess.DTO.SexoDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,9 +10,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import DataAccess.DTO.SexoAltDTO;
-import DataAccess.DTO.SexoDTO;
 
 public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
 
@@ -113,7 +111,7 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, entity.getNombre());
             pstmt.setString(2, entity.getDescripcion());
-            pstmt.setString(3, dtf.format(now).toString());
+            pstmt.setString(3, dtf.format(now));
             pstmt.setInt(4, entity.getIdCatalogo());
             pstmt.executeUpdate();
             return true;

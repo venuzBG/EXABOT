@@ -98,7 +98,7 @@ public class SexoAntDAO extends SQLiteDataHelper implements IDAO<SexoAltDTO>{
             Connection conn = openConnection();     //conectar a BD
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, entity.getNombre());
-            pstmt.setString(2, dtf.format(now).toString());
+            pstmt.setString(2, dtf.format(now));
             pstmt.setInt(3, entity.getIdSexo());
             pstmt.executeUpdate();
             return true;
