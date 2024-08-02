@@ -6,9 +6,11 @@ import java.sql.SQLException;
 
 public abstract class SQLiteDataHelper {
 
-    private static String DBPathConnection = "jdbc:sqlite.DataBase//ExaBot.sqlite";
+    private static String DBPathConnection = "jdbc:sqlite:DataBase//ExaBot.sqlite";
+
     private static Connection conn = null;
-    //protected SQLiteDataHelper(){} 
+
+    // protected SQLiteDataHelper(){} 
 
     protected static synchronized Connection openConnection() throws Exception{
         try {
@@ -28,4 +30,5 @@ public abstract class SQLiteDataHelper {
             throw e;  //new Exception (e, "SQLiteDataHelper", "Fallo la coneccion con la base de datos")
         }
     }
+
 }

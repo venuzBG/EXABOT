@@ -2,10 +2,10 @@ package DataAccess.DTO;
 
 public class SexoAltDTO {
     private Integer IdSexo;
-    private String Nombre;
-    private String Estado;
-    private String FechaCrea;
-    private String FechaModifica;
+    private String  Nombre;
+    private String  Estado;
+    private String  FechaCrea;
+    private String  FechaModifica;
     
     public SexoAltDTO(){}
 
@@ -69,10 +69,6 @@ public class SexoAltDTO {
         + "\n Estado:           "+getEstado()
         + "\n FechaCrea:        "+getFechaCrea()
         + "\n FechaModifica:    "+getFechaModifica();
-    }
-
-    public boolean toSring() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

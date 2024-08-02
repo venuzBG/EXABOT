@@ -15,8 +15,8 @@ DROP TABLE IF EXISTS Sexo;
 
 CREATE TABLE CatalogoTipo(
   IdCatalogoTipo    INTEGER NOT NULL PRIMARY KEY autoincrement 
-  ,Nombre            VARCHAR(18) NOT NULL UNIQUE
-  ,Descripcion      VARCHAR(98) NOT NULL UNIQUE
+  ,Nombre           VARCHAR(18) NOT NULL UNIQUE
+  ,Descripcion      VARCHAR(98) NOT NULL 
 
   ,Estado           VARCHAR(1) NOT NULL DEFAULT('A')
   ,FechaCreacion    DATETIME DEFAULT(datetime('now','localtime'))
@@ -38,7 +38,7 @@ CREATE TABLE IABot (
   IdIABot           INTEGER PRIMARY KEY autoincrement
   ,Nombre           TEXT NOT NULL UNIQUE
   ,Observacion      TEXT
-  ,Estado           VARCHAR(1) DEFAULT('A') CHECK (Estado IN ('A','X'))
+  ,Estado           VARCHAR(1) DEFAULT('A') 
   ,FechaCrea        DATETIME DEFAULT current_timestamp
 );
 CREATE TABLE ExaBot (
@@ -47,7 +47,7 @@ CREATE TABLE ExaBot (
   ,Nombre           TEXT NOT NULL
   ,Serie            TEXT NOT NULL
 
-  ,Estado           VARCHAR(1) DEFAULT('A') CHECK (Estado IN ('A','X'))
+  ,Estado           VARCHAR(1) DEFAULT('A') 
   ,FechaCrea        DATETIME DEFAULT current_timestamp
   ,CONSTRAINT       fk_IABot FOREIGN KEY (IdIABot) REFERENCES IABot(IdIABot)
 );
@@ -76,7 +76,7 @@ CREATE TABLE Persona (
 CREATE TABLE Sexo (
   IdSexo              INTEGER NOT NULL PRIMARY KEY autoincrement
   ,Nombre             VARCHAR(18) NOT NULL UNIQUE
-  ,Estado             VARCHAR(1) DEFAULT('A') CHECK (Estado IN ('A','X'))
+  ,Estado             VARCHAR(1) DEFAULT('A') 
   ,FechaCrea          DATETIME DEFAULT CURRENT_TIME
   ,FechaModifica      DATETIME DEFAULT current_timestamp
 )

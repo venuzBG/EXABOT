@@ -47,7 +47,7 @@ public class SexoAntDAO extends SQLiteDataHelper implements IDAO<SexoAltDTO>{
         List <SexoAltDTO> lts = new ArrayList<>();
         String query = "SELECT IdSexo"
                      +" .Nombre"
-                     +" .Etado"
+                     +" .Estado"
                      +" .FechaCrea"
                      +" .FechaModifica"
                      +" From Sexo"
@@ -58,10 +58,10 @@ public class SexoAntDAO extends SQLiteDataHelper implements IDAO<SexoAltDTO>{
             ResultSet rs = stmt.executeQuery(query);  //ejecutar la
             while (rs.next()) { 
                 SexoAltDTO s = new SexoAltDTO( rs.getInt(1)     //IdSexxo
-                                        ,rs.getString(2)  //Nombre
-                                        ,rs.getString(3)  //Estado
-                                        ,rs.getString(4)  //FehcaCrea
-                                        ,rs.getString(5)); //FechaModifica
+                                              ,rs.getString(2)  //Nombre
+                                              ,rs.getString(3)  //Estado
+                                              ,rs.getString(4)  //FehcaCrea
+                                              ,rs.getString(5)); //FechaModifica
                 lts.add(s);
             }
 

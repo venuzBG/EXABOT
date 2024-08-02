@@ -1,7 +1,5 @@
 package DataAccess;
 
-import DataAccess.DTO.SexoDTO;
-import Framework.PatException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,18 +10,20 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
+import DataAccess.DTO.PersonaTipoDTO;
 
-    @Override
-    public SexoDTO readBy(Integer id) throws Exception {
-        SexoDTO s = new SexoDTO();
+public class PersonaTipoDAO extends SQLiteDataHelper implements IDAO<PersonaTipoDTO> {
+
+     @Override
+    public PersonaTipoDTO readBy(Integer id) throws Exception {
+        PersonaTipoDTO s = new PersonaTipoDTO();
         String query = "SELECT IdCatalogo"
-                        +" ,IdCatalogoTipo"
-                        +" ,Nombre"
-                        +" ,Descripcion"
-                        +" ,Estado"
-                        +" ,FechaCreacion"
-                        +" ,FechaModifica"
+                        +" .IdCatalogoTipo"
+                        +" .Nombre"
+                        +" .Descripcion"
+                        +" .Estado"
+                        +" .FechaCreacion"
+                        +" .FechaModifica"
                         +" From Catalogo"
                         +" WHERE ESTADO = 'A'"
                         +" AND IdCatalogoTipo = 2"
@@ -33,7 +33,7 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
             Statement  stmt = conn.createStatement();   //CRUD: Select *
             ResultSet rs = stmt.executeQuery(query);  //ejecutar la
             while (rs.next()) { 
-                s = new SexoDTO( rs.getInt(1)
+                s = new PersonaTipoDTO( rs.getInt(1)
                                 ,rs.getInt(2)    //IdCatalogoTipo
                                 ,rs.getString(3)  //Nombre
                                 ,rs.getString(4)  //Descripcion
@@ -43,18 +43,19 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
             }
             
         } catch (SQLException e) {
-            throw new PatException(e.getMessage(), getClass().getName(), "readBy()");
+            throw e;
+            // throw new PatException(e.getMessage(), getClass().getName(), "readBy()");
         }
         return s;
     }
 
     @Override
-    public boolean create(SexoDTO entity) throws Exception {
+    public boolean create(PersonaTipoDTO entity) throws Exception {
         String query = "INSERT INTO Catalogo (IdCatalogoTip0,Nombre,Descripcion) VALUES(?.?,?)";
         try {
             Connection conn = openConnection();     //conectar a BD
             PreparedStatement pstmt = conn.prepareStatement(query);
-            pstmt.setInt(1,2);
+            pstmt.setInt(1,1);
             pstmt.setString(1, entity.getNombre());
             pstmt.setString(2,entity.getDescripcion());
             pstmt.executeUpdate();
@@ -67,16 +68,16 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
     }
 
     @Override
-    public List<SexoDTO> readAll() throws Exception {
-        List <SexoDTO> lts = new ArrayList<>();
+    public List<PersonaTipoDTO> readAll() throws Exception {
+        List <PersonaTipoDTO> lts = new ArrayList<>();
         String query = "SELECT IdCatalogo"
-                        +" ,IdCatalogoTipo"
-                        +" ,Nombre"
-                        +" ,Descripcion"
-                        +" ,Estado"
-                        +" ,FechaCreacion"
-                        +" ,FechaModifica"
-                        +" FROM Catalogo"
+                        +" .IdCatalogoTipo"
+                        +" .Nombre"
+                        +" .Descripcion"
+                        +" .Estado"
+                        +" .FechaCreacion"
+                        +" .FechaModifica"
+                        +" From Catalogo"
                         +" WHERE ESTADO = 'A'"
                         +" AND IdCatalogoTipo = 2";
         try {
@@ -84,7 +85,7 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
             Statement  stmt = conn.createStatement();   //CRUD: Select *
             ResultSet rs = stmt.executeQuery(query);  //ejecutar la
             while (rs.next()) { 
-                SexoDTO s = new SexoDTO( rs.getInt(1)
+                PersonaTipoDTO s = new PersonaTipoDTO( rs.getInt(1)
                                         ,rs.getInt(2)    //IdCatalogoTipo
                                         ,rs.getString(3)  //Nombre
                                         ,rs.getString(4)  //Descripcion
@@ -95,14 +96,14 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
             }
 
         } catch (SQLException e) {
-            
-            throw new PatException(e.getMessage(), getClass().getName(), "readAll");
+            throw e;
+            // throw new PatException(e.getMessage(), getClass().getName(), "readAll");
         }
         return lts;
     }
 
     @Override
-    public boolean update(SexoDTO entity) throws Exception {
+    public boolean update(PersonaTipoDTO entity) throws Exception {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String query = "UPDATE Catalogo SET Nombre = ?,Descripcion=?, FechaModifica = ? WHERE IdSexo = ?";
@@ -111,12 +112,13 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setString(1, entity.getNombre());
             pstmt.setString(2, entity.getDescripcion());
-            pstmt.setString(3, dtf.format(now).toString());
+            pstmt.setString(3, dtf.format(now));
             pstmt.setInt(4, entity.getIdCatalogo());
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
-            throw new PatException(e.getMessage(), getClass().getName(), "update()");
+            throw e;
+            // throw new PatException(e.getMessage(), getClass().getName(), "update()");
         }
     }
 
@@ -132,7 +134,8 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
             return true;
             
         } catch (Exception e) {
-            throw new PatException(e.getMessage(), getClass().getName(), "delete()");
+            throw e;
+            // throw new PatException(e.getMessage(), getClass().getName(), "delete()");
         }
     }
 
@@ -149,7 +152,8 @@ public class SexoDAO extends SQLiteDataHelper implements IDAO<SexoDTO>{
                 
             }
         }catch (SQLException e){
-            throw new PatException(e.getMessage(), getClass().getName(), "getMaxRow()");
+            throw e;
+            // throw new PatException(e.getMessage(), getClass().getName(), "getMaxRow()");
         }
         return 0;
     }

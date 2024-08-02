@@ -94,3 +94,12 @@ SELECT Nombre FROM PersonaTipo WHERE Nombre like "s%";
 SELECT Nombre FROM PersonaTipo WHERE Nombre like "%s";
 SELECT Nombre FROM PersonaTipo WHERE Nombre like "%s%";
 
+SELECT IdCatalogo
+ ,IdCatalogoTipo
+ ,Nombre
+ ,Descripcion
+ ,FechaCreacion
+ ,FechaModifica
+FROM Catalogo
+WHERE Estado = 'A'
+AND IdCatalogoTipo = 2;
